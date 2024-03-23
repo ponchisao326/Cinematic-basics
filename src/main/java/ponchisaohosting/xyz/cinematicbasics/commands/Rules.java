@@ -28,7 +28,7 @@ public class Rules {
 
     private static void toggleMovement(ServerCommandSource source) {
         movementEnabled = !movementEnabled; // Alternar el estado del movimiento
-        String message = "Player movement for non-operators is now " + (movementEnabled ? "enabled" : "disabled");
+        String message = "El movimiento de los NO-OPERADORES está ahora " + (movementEnabled ? "deshabilitado" : "habilitado");
         source.sendFeedback(Text.of(message), false);
     }
 

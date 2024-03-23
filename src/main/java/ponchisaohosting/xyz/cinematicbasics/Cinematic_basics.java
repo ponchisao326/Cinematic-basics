@@ -34,6 +34,11 @@ public class Cinematic_basics implements ModInitializer {
             }
         });
 
+        // Registrar el evento de fin de tick del servidor para el manejo del movimiento del jugador
+        ServerTickEvents.END_SERVER_TICK.register(server -> {
+            server.getPlayerManager().getPlayerList().forEach(Rules::onPlayerMove);
+        });
+
     }
 
 }
