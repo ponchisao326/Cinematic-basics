@@ -14,6 +14,8 @@ import java.util.Map;
 
 public class Rules {
     private static final Map<ServerPlayerEntity, Vec3d> previousPlayerPositions = new HashMap<>();
+    private static boolean movementEnabled = true;
+
 
     public static void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(CommandManager.literal("togglemovement")
@@ -25,16 +27,14 @@ public class Rules {
     }
 
     private static void toggleMovement(ServerCommandSource source) {
-        boolean enabled = !previousPlayerPositions.isEmpty();
-        previousPlayerPositions.clear();
-        String message = "Player movement for non-operators is now " + (enabled ? "enabled" : "disabled");
-        // Send the message to the player
+        movementEnabled = !movementEnabled; // Alternar el estado del movimiento
+        String message = "Player movement for non-operators is now " + (movementEnabled ? "enabled" : "disabled");
         source.sendFeedback(Text.of(message), false);
     }
 
     public static void onPlayerMove(ServerPlayerEntity player) {
         // Verifica si el jugador no es creativo, no es espectador y no es operador (OP)
-        if (!player.isCreative() && !player.isSpectator() && !player.hasPermissionLevel(2)) {
+        if (movementEnabled && !player.isCreative() && !player.isSpectator() && !player.hasPermissionLevel(2)) {
             // Obtiene la posición anterior del jugador
             Vec3d previousPos = previousPlayerPositions.getOrDefault(player, null);
             // Comprueba si la posición anterior existe y si la distancia entre la posición actual y la anterior es mayor que 0.1

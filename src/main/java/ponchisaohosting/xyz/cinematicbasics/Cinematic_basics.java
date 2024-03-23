@@ -27,6 +27,13 @@ public class Cinematic_basics implements ModInitializer {
             server.getPlayerManager().getPlayerList().forEach(Rules::onPlayerMove);
         });
 
+        CommandRegistrationCallback.EVENT.register(new CommandRegistrationCallback() {
+            @Override
+            public void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, CommandManager.RegistrationEnvironment environment) {
+                Rules.registerCommands(dispatcher);
+            }
+        });
+
     }
 
 }
