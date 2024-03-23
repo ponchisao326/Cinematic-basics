@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "cinematic-basics",
+  "version": "${version}",
+  "name": "Cinematic-basics",
+  "description": "",
+  "authors": [],
+  "contact": {
+    "repo": "https://github.com/Usuario/Cinematic-basics"
+  },
+  "license": "All-Rights-Reserved",
+  "icon": "assets/cinematic-basics/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "ponchisaohosting.xyz.cinematicbasics.client.Cinematic_basicsClient"
+    ],
+    "main": [
+      "ponchisaohosting.xyz.cinematicbasics.Cinematic_basics"
+    ]
+  },
+  "mixins": [
+    "cinematic-basics.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
