@@ -24,9 +24,11 @@ public class Cinematic_basics implements ModInitializer {
         LOGGER.info("Cinematics-Basics: Iniciando...");
         LOGGER.info("Autor: PonchisaoHosting (Ponchisao326)");
 
-        // Registrar el evento de inicio de sesión del jugador
-        ServerLifecycleEvents.SERVER_STARTING.register(server -> {
-            server.getPlayerManager().getPlayerList().forEach(Rules::onPlayerJoin);
+        // Registrar el evento de inicio de sesión del jugador cuando el servidor se ha iniciado completamente
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+            ServerLifecycleEvents.SERVER_STARTING.register(serverStarting -> {
+                serverStarting.getPlayerManager().getPlayerList().forEach(Rules::onPlayerJoin);
+            });
         });
 
         // Registrar el evento de fin de tick del servidor para el manejo del movimiento del jugador
