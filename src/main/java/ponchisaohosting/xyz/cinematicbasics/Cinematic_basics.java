@@ -3,6 +3,7 @@ package ponchisaohosting.xyz.cinematicbasics;
 import com.mojang.brigadier.CommandDispatcher;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.server.command.CommandManager;
@@ -23,6 +24,12 @@ public class Cinematic_basics implements ModInitializer {
         LOGGER.info("Cinematics-Basics: Iniciando...");
         LOGGER.info("Autor: PonchisaoHosting (Ponchisao326)");
 
+        // Registrar el evento de inicio de sesión del jugador
+        ServerLifecycleEvents.SERVER_STARTING.register(server -> {
+            server.getPlayerManager().getPlayerList().forEach(Rules::onPlayerJoin);
+        });
+
+        // Registrar el evento de fin de tick del servidor para el manejo del movimiento del jugador
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             server.getPlayerManager().getPlayerList().forEach(Rules::onPlayerMove);
         });
@@ -32,11 +39,6 @@ public class Cinematic_basics implements ModInitializer {
             public void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, CommandManager.RegistrationEnvironment environment) {
                 Rules.registerCommands(dispatcher);
             }
-        });
-
-        // Registrar el evento de fin de tick del servidor para el manejo del movimiento del jugador
-        ServerTickEvents.END_SERVER_TICK.register(server -> {
-            server.getPlayerManager().getPlayerList().forEach(Rules::onPlayerMove);
         });
 
     }
