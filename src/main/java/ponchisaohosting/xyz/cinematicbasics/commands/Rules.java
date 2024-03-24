@@ -33,7 +33,7 @@ public class Rules {
     }
 
     public static void onPlayerMove(ServerPlayerEntity player) {
-        // Verifica si el jugador no es creativo, no es espectador y no es operador (OP)
+        // Verifica si el movimiento está habilitado, el jugador no está en creativo, no es espectador y no es operador (OP)
         if (movementEnabled && !player.isCreative() && !player.isSpectator() && !player.hasPermissionLevel(2)) {
             // Obtiene la posición anterior del jugador
             Vec3d previousPos = previousPlayerPositions.getOrDefault(player, null);
