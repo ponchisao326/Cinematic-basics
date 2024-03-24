@@ -5,9 +5,11 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.server.network.ServerPlayerEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ponchisaohosting.xyz.cinematicbasics.commands.Rules;
@@ -24,11 +26,11 @@ public class Cinematic_basics implements ModInitializer {
         LOGGER.info("Cinematics-Basics: Iniciando...");
         LOGGER.info("Autor: PonchisaoHosting (Ponchisao326)");
 
-        // Registrar el evento de inicio de sesión del jugador cuando el servidor se ha iniciado completamente
-        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
-            ServerLifecycleEvents.SERVER_STARTING.register(serverStarting -> {
-                serverStarting.getPlayerManager().getPlayerList().forEach(Rules::onPlayerJoin);
-            });
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            // Obtener el jugador que se ha conectado
+            ServerPlayerEntity player = handler.player;
+
+            Rules.onPlayerJoin(player);
         });
 
         // Registrar el evento de fin de tick del servidor para el manejo del movimiento del jugador
